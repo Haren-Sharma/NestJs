@@ -1,0 +1,33 @@
+When we talk about request/response cycle it basically has 5 steps in the server:
+1)Validate data contained in the request(Pipe)
+2)Make sure the user is authenticated(Guard)
+3)Route the request to a particular function(Controller)
+4)Run some business logic(Service)
+5)Access a database.(Repository)
+
+//providers
+providers or service are injectable(with @Injectable() decorator),i.e,they can be injected in any controller
+that is dependent on it by simply
+constructor(private readonly userservice:UserService){
+//now we can access the methods of the user service by
+this.userservice.method() ;
+}
+
+//Pipes
+Gist=>controller k pass jane se pehle data ka analysis ya manipulation
+Basically the use case of pipes is to :
+1)transform=>transform the input data into desired form,
+getUser(@Param('id',ParseIntPipe) id:number)
+2)validation pipe:for validation purposes,
+first install:
+npm i --save class-transformer class-validator
+createUser(@Body(new ValidationPipe()) userbody:UserDto)
+
+//Inversion Of Control Principle:
+Classes should not create instances of its dependencies on its own.
+
+//Interceptors
+are decorators that intercepts the incoming requests and outgoing responses
+
+//Serialization
+Serialization is the process of converting a data object

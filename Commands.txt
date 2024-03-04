@@ -1,0 +1,9 @@
+//to generate module service and controler 
+nest g module resource_name
+nest g service resource_name
+nest g controller resource_name
+nest g guard guard_name
+
+//to genearte the entire resource 
+nest g resource resource_name
+
