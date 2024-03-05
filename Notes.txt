@@ -5,6 +5,14 @@ When we talk about request/response cycle it basically has 5 steps in the server
 4)Run some business logic(Service)
 5)Access a database.(Repository)
 
+Whenever we create a nest application a DI container is created for us,that has many properties but the imp are just 2:
+It will look for all the classes that we have created in our application except for controllers.
+When it is time to create a controller,it will ask the DI container to create an instance for it,in return 
+the container will use all the created instances of the classes that the controller required and gives back an instance 
+of the controller
+1)List of classes and their dependencies
+2)List of instances that DI container has created
+
 //providers
 providers or service are injectable(with @Injectable() decorator),i.e,they can be injected in any controller
 that is dependent on it by simply
