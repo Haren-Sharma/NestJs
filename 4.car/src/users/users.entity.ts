@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   AfterInsert,
   AfterRemove,
@@ -11,9 +12,13 @@ import {
 export class User {
   @PrimaryGeneratedColumn()
   id: number;
+
   @Column()
   email: string;
+  
   @Column()
+  @Exclude() //password will be excluded when the user entity instance will be converted into a plain object
+  //by the class serializer interceptor,i.e,we won't be getting password while fetching the user
   password: string;
 
   @AfterInsert()
