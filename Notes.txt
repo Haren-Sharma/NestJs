@@ -13,6 +13,8 @@ of the controller
 1)List of classes and their dependencies
 2)List of instances that DI container has created
 
+//Behind the scenes decorators are just functions 
+
 //providers
 providers or service are injectable(with @Injectable() decorator),i.e,they can be injected in any controller
 that is dependent on it by simply
@@ -35,7 +37,8 @@ createUser(@Body(new ValidationPipe()) userbody:UserDto)
 Classes should not create instances of its dependencies on its own.
 
 //Interceptors
-are decorators that intercepts the incoming requests and outgoing responses
+are decorators that intercepts the incoming requests and outgoing responses.
+they can be applied to a particular route handler or a controller or the complete application
 
 //Serialization
 Serialization is the process of converting a data object
