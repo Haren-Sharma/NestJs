@@ -22,6 +22,7 @@ import {
 import { UserDto } from './dtos/user.dto';
 
 @Controller('auth')
+@Serialize(UserDto)
 export class UsersController {
   constructor(private userService: UsersService) {}
   @Post('/signup')
@@ -31,7 +32,7 @@ export class UsersController {
 
   // @UseInterceptors(ClassSerializerInterceptor)
   // @UseInterceptors(new SerializeInterceptor(UserDto))
-  @Serialize(UserDto)
+  // @Serialize(UserDto)
   @Get('/:id')
   getUserById(@Param('id') id: string) {
     // console.log("Running the handler");
