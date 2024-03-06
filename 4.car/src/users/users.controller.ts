@@ -15,7 +15,11 @@ import {
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUsetDto } from './dtos/update-user.dto';
-import { SerializeInterceptor } from 'src/interceotors/serialize.interceptor';
+import {
+  Serialize,
+  SerializeInterceptor,
+} from 'src/interceotors/serialize.interceptor';
+import { UserDto } from './dtos/user.dto';
 
 @Controller('auth')
 export class UsersController {
@@ -26,10 +30,11 @@ export class UsersController {
   }
 
   // @UseInterceptors(ClassSerializerInterceptor)
-  @UseInterceptors(SerializeInterceptor)
+  // @UseInterceptors(new SerializeInterceptor(UserDto))
+  @Serialize(UserDto)
   @Get('/:id')
   getUserById(@Param('id') id: string) {
-    console.log("Running the handler");
+    // console.log("Running the handler");
     return this.userService.findOne(parseInt(id));
   }
 
@@ -39,7 +44,7 @@ export class UsersController {
   }
 
   @Patch('/:id')
-  updateUser(@Param('id') id: string,@Body() body:UpdateUsetDto) {
+  updateUser(@Param('id') id: string, @Body() body: UpdateUsetDto) {
     return this.userService.update(parseInt(id), body);
   }
 
