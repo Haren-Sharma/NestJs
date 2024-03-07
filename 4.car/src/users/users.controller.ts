@@ -10,6 +10,7 @@ import {
   Put,
   Query,
   Req,
+  Session,
   UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
@@ -26,6 +27,16 @@ import { AuthService } from './users.auth.service';
 @Serialize(UserDto)
 export class UsersController {
   constructor(private userService: UsersService,private authService:AuthService) {}
+
+  @Get('/:color')
+  getColor(@Param('color') color:string,@Session() session:any){
+    session.color=color;
+  }
+
+  @Get('/current/color')
+  getCurrent(@Session() session:any){
+    return session.color;
+  }
 
   @Post('/signup')
   signUp(@Body() body: CreateUserDto) {
