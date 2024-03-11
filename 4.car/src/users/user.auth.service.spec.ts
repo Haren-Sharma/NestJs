@@ -6,15 +6,21 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { BadRequestException, NotFoundException } from '@nestjs/common';
 
 describe('AuthService', () => {
+  const users: User[] = [];
   let service: AuthService;
   let fakeUserService: Partial<UsersService>;
 
   beforeEach(async () => {
     //create a fake copy of user service
     fakeUserService = {
-      find: () => Promise.resolve([]),
-      create: (data: CreateUserDto) =>
-        Promise.resolve({ id: 1, ...data } as User),
+      find: (email: string) => {
+        return Promise.resolve(users.filter((user) => user.email === email));
+      },
+      create: (data: CreateUserDto) => {
+        const user = { id: Math.trunc(Math.random() * 9999), ...data } as User;
+        users.push(user);
+        return Promise.resolve(user);
+      },
     };
     const module = await Test.createTestingModule({
       providers: [
@@ -41,10 +47,7 @@ describe('AuthService', () => {
   });
 
   it('throws an error if user sign up with an email that is already in use', async () => {
-    fakeUserService.find = () => {
-      return Promise.resolve([{ id: 1, email: 'a', password: 'a' } as User]);
-    };
-    await expect(service.signup('test@test.com', '1234')).rejects.toThrow(
+    await expect(service.signup('haren@gmail.com', '1234')).rejects.toThrow(
       BadRequestException,
     );
   });
@@ -53,21 +56,14 @@ describe('AuthService', () => {
       NotFoundException,
     );
   });
-  it('throws an error if an invalid password is provided',async ()=>{
-    fakeUserService.find=()=>{
-        return Promise.resolve([{id:1,email:'test@test.com',password:'234'} as User])
-    }
-    await expect(service.signIn('test@test.com','123')).rejects.toThrow(BadRequestException)
-  })
+  it('throws an error if an invalid password is provided', async () => {
+    await expect(service.signIn('haren@gmail.com', '124')).rejects.toThrow(
+      BadRequestException,
+    );
+  });
 
-  it('returns a user is password is correct',async()=>{
-    fakeUserService.find=()=>{
-        return Promise.resolve([{id:1,email:'test@test.com',password:'123.456'} as User])
-    }
-    service.getHash=(pass:string,salt:string)=>{
-        return Promise.resolve('456')
-    }
-    const user=await service.signIn('test@test.com','1234');
+  it('returns a user is password is correct', async () => {
+    const user = await service.signIn('haren@gmail.com', '1234');
     expect(user).toBeDefined();
-  })
+  });
 });

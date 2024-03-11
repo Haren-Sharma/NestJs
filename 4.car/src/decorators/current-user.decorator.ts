@@ -1,6 +1,6 @@
 import { ExecutionContext, createParamDecorator } from "@nestjs/common";
 
-export  const currentUser=createParamDecorator((data:any,context:ExecutionContext)=>{
+export  const CurrentUser=createParamDecorator((data:any,context:ExecutionContext)=>{
     const request=context.switchToHttp().getRequest();
     //we want session object and user service instance
     //session object is directly available
