@@ -1,29 +1,23 @@
 import {
   Body,
-  ClassSerializerInterceptor,
   Controller,
   Delete,
   Get,
   Param,
   Patch,
   Post,
-  Put,
   Query,
-  Req,
   Session,
   UseGuards,
-  UseInterceptors,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUsetDto } from './dtos/update-user.dto';
 import {
   Serialize,
-  SerializeInterceptor,
 } from 'src/interceotors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { AuthService } from './users.auth.service';
-import { CurrentUserInterceptor } from 'src/interceotors/current-user.interceptor';
 import { currentUser } from 'src/decorators/current-user.decorator';
 import { AuthGuard } from 'src/Guards/authGuard.guard';
 

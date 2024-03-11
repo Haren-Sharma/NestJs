@@ -1,4 +1,4 @@
-import { BadRequestException, Injectable } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { randomBytes, scrypt } from "crypto";
 
@@ -31,7 +31,7 @@ export class AuthService{
     async signIn(email:string,password:string){
         //will find whether the user exists or not
         const [user]=await this.userService.find(email);
-        if(!user) throw new BadRequestException('User Doesnot exists');
+        if(!user) throw new NotFoundException('User Doesnot exists');
         //split the salt and hash from the password
         const [salt,hash]=user.password.split('.');
         //generate the hash and compare ,if same ,the user is authenticated otherwise not
