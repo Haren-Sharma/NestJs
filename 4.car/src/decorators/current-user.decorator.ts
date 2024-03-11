@@ -8,7 +8,8 @@ export  const currentUser=createParamDecorator((data:any,context:ExecutionContex
     //but userservice is part of the dependency injection,so
     //we cannot directly import it and use it as it uses 
     //user repository that is set up only by dependency injection
-    //that is why we make use of interceptors here,as they are
+    //that is why we make use of interceptors here,as they can be
     //part of the dependency injection system.
+    //we have to make them injectable and declare it in providers
     return request.currentUser;
 })

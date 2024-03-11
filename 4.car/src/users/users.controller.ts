@@ -22,9 +22,12 @@ import {
 } from 'src/interceotors/serialize.interceptor';
 import { UserDto } from './dtos/user.dto';
 import { AuthService } from './users.auth.service';
+import { CurrentUserInterceptor } from 'src/interceotors/current-user.interceptor';
+import { currentUser } from 'src/decorators/current-user.decorator';
 
 @Controller('auth')
 @Serialize(UserDto)
+@UseInterceptors(CurrentUserInterceptor)
 export class UsersController {
   constructor(private userService: UsersService,private authService:AuthService) {}
 
@@ -40,9 +43,14 @@ export class UsersController {
   //   return session.color;
   // }
 
+  // @Get('/whoami')
+  // whoami(@Session() session:any){
+  //   return this.userService.findOne(session.userId);
+  // }
+
   @Get('/whoami')
-  whoami(@Session() session:any){
-    return this.userService.findOne(session.userId);
+  whoami(@currentUser() user:UserDto){
+    return user;
   }
 
   @Post('/signup')

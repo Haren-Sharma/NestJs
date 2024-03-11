@@ -3,7 +3,7 @@ import { Observable, map } from "rxjs";
 import { UsersService } from "src/users/users.service";
 
 @Injectable() //to make use of userservice instance
-export class CurrentUser implements NestInterceptor{
+export class CurrentUserInterceptor implements NestInterceptor{
     constructor(private userservice:UsersService){}
 
     async intercept(context: ExecutionContext, next: CallHandler<any>){
