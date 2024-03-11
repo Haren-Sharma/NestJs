@@ -37,7 +37,7 @@ export class AuthService{
         //generate the hash and compare ,if same ,the user is authenticated otherwise not
         const genHash=await this.getHash(password,salt);
         if(genHash===hash){
-            return 'User is signed in'
+            return user
         }
         else {
             throw new BadRequestException('Invalid Credentials');

@@ -28,25 +28,41 @@ import { AuthService } from './users.auth.service';
 export class UsersController {
   constructor(private userService: UsersService,private authService:AuthService) {}
 
-  @Get('/:color')
-  getColor(@Param('color') color:string,@Session() session:any){
-    session.color=color;
-  }
+  //just for demonstration
 
-  @Get('/current/color')
-  getCurrent(@Session() session:any){
-    return session.color;
+  // @Get('/:color')
+  // getColor(@Param('color') color:string,@Session() session:any){
+  //   session.color=color;
+  // }
+
+  // @Get('/current/color')
+  // getCurrent(@Session() session:any){
+  //   return session.color;
+  // }
+
+  @Get('/whoami')
+  whoami(@Session() session:any){
+    return this.userService.findOne(session.userId);
   }
 
   @Post('/signup')
-  signUp(@Body() body: CreateUserDto) {
+  async signUp(@Body() body: CreateUserDto,@Session() session:any) {
     // return this.userService.create(body);  
-    return this.authService.signup(body.email,body.password);
+    const user=await this.authService.signup(body.email,body.password);
+    session.userId=user.id;
+    return user;
   }
 
   @Post('/signin')
-  signin(@Body() body:CreateUserDto){
-    return this.authService.signIn(body.email,body.password);
+  async signin(@Body() body:CreateUserDto,@Session() session:any){
+    const user=await this.authService.signIn(body.email,body.password);
+    session.userId=user.id;
+    return user;
+  }
+
+  @Post('/signout')
+  signout(@Session() session:any){
+    session.userId=null;
   }
 
   // @UseInterceptors(ClassSerializerInterceptor)
