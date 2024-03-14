@@ -3,6 +3,7 @@ import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { AuthService } from './users.auth.service';
 import { User } from './users.entity';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
 
 describe('UsersController', () => {
   const users:User[]=[]
