@@ -1,10 +1,12 @@
 import { Exclude } from 'class-transformer';
+import { Report } from 'src/reports/reports.entity';
 import {
   AfterInsert,
   AfterRemove,
   AfterUpdate,
   Column,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
@@ -25,6 +27,9 @@ export class User {
   //To solve that problem we will use custom interceptor which will convert the user entity instnace
   //into a plain object and eventually into json by using a user dto(dto that describes how to serialize a user for a particular route handler)
   password: string;
+
+  @OneToMany(()=>Report,(report)=>report.user)
+  reports:Report[];
 
   @AfterInsert()
   logInsert() {
